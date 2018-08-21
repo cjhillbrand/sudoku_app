@@ -16,6 +16,9 @@ export class NavButton extends React.Component {
         if (theme == 'about') {
             return buttonStyles.aboutButton
         }
+        if (theme == 'back') {
+            return buttonStyles.backButton
+        }
     }
 
     grabTextStyle(theme) {
@@ -24,6 +27,9 @@ export class NavButton extends React.Component {
         }
         if (theme == 'about') {
             return buttonStyles.aboutContent
+        }
+        if (theme == 'back') {
+            return buttonStyles.backContent
         }
     }
 

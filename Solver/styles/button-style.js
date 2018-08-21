@@ -20,6 +20,14 @@ const buttonStyles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 5
     },
+    backButton: {
+        borderRadius: 16,
+        width: 100,
+        height: 30,
+        borderWidth: 3,
+        alignItems: 'center',
+        marginLeft: 10
+    },
     getStartedContent: {
         fontSize: 25,
         fontFamily: 'Bangla Sangam MN',
@@ -29,6 +37,10 @@ const buttonStyles = StyleSheet.create({
         fontSize: 25,
         fontFamily: 'Bangla Sangam MN',
     },
+    backContent: {
+        fontSize: 16,
+        fontFamily: 'Bangla Sangam MN',
+    }
 })
 
 export {buttonStyles}

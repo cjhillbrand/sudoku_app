@@ -1,4 +1,5 @@
 import React from "react"
+import { NavButton } from './Component/NavButton'
 import { createStackNavigator } from "react-navigation"
 import  HomeScreen  from "./Containers/HomeScreen"
 import InputScreen from "./Containers/InputScreen"

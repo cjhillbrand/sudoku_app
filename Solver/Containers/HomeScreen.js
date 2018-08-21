@@ -9,7 +9,7 @@ class HomeScreen extends React.Component {
         return (
         <View style={titleStyles.container}>
             <Text style = {titleStyles.header}> Welcome to </Text>
-            <Image source={require('../placeholder.png')} style={titleStyles.image} />
+            <Image source={require('../solver-logo-01.png')} style={titleStyles.image} />
             <NavButton 
                 content='GET STARTED'
                 theme='getStarted'
