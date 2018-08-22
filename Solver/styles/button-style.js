@@ -28,19 +28,39 @@ const buttonStyles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: 10
     },
-    getStartedContent: {
-        fontSize: 25,
-        fontFamily: 'Bangla Sangam MN',
-        color: 'white'
+    solveButton: {
+        borderRadius: 45,
+        width:90,
+        height:90,
+        backgroundColor:'black',
+        marginTop: 50,
+        marginRight:15,
     },
-    aboutContent: {
-        fontSize: 25,
-        fontFamily: 'Bangla Sangam MN',
+    restartButton: {
+        borderRadius: 45,
+        width:90,
+        height:90,
+        borderWidth:3,
+        marginTop:50,
+        marginLeft:15,
+        alignItems:'center'
     },
-    backContent: {
-        fontSize: 16,
+    blackButton:{
+        backgroundColor:'black'
+    },
+    whiteButton: {
+        borderColor: 'black',
+        borderWidth: 3
+    },
+    blackContent: {
         fontFamily: 'Bangla Sangam MN',
-    }
+        color: 'white',
+        textAlign: 'center'
+    },
+    whiteContent: {
+        fontFamily: 'Bangla Sangam MN',
+        fontSize: 20,
+    }    
 })
 
 export {buttonStyles}

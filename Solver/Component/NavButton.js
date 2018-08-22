@@ -4,9 +4,11 @@ import { buttonStyles} from '../styles/button-style'
 
 export class NavButton extends React.Component {
     static defaultProps = {
-        theme: 'black-small',
+        theme: 'about',
         content: 'Default',
+        fontSize: 16,
         handlePress: null,
+        color: 'white'
     }
 
     grabButtonStyle(theme) {
@@ -19,30 +21,31 @@ export class NavButton extends React.Component {
         if (theme == 'back') {
             return buttonStyles.backButton
         }
+        if (theme == 'solve') {
+            return buttonStyles.solveButton
+        }
+        if (theme == 'restart') {
+            return buttonStyles.restartButton
+        }
     }
 
-    grabTextStyle(theme) {
-        if (theme == 'getStarted') {
-            return buttonStyles.getStartedContent
+    grabTextStyle(color, fontSize) {
+        if (color == 'black') {
+            return [buttonStyles.blackContent, {fontSize: fontSize}]
         }
-        if (theme == 'about') {
-            return buttonStyles.aboutContent
-        }
-        if (theme == 'back') {
-            return buttonStyles.backContent
-        }
+        return [buttonStyles.whiteContent, {fontSize: fontSize}]
     }
 
     render() {
-        const { content, handlePress, theme } = this.props
+        const { content, handlePress, theme, fontSize, color } = this.props
         return(
             <TouchableOpacity 
             style = {this.grabButtonStyle(theme)} 
             onPress={handlePress}
             content={content}
             >
-                <View>
-                    <Text style={this.grabTextStyle(theme)}> {content} </Text>
+                <View style={{flex:1, justifyContent:'center',alignItems:'center'}}>
+                    <Text style={this.grabTextStyle(color, fontSize)}> {content} </Text>
                 </View>
             </TouchableOpacity>
         )}

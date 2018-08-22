@@ -12,6 +12,8 @@ class HomeScreen extends React.Component {
             <Image source={require('../solver-logo-01.png')} style={titleStyles.image} />
             <NavButton 
                 content='GET STARTED'
+                color='black'
+                fontSize={22}
                 theme='getStarted'
                 handlePress={() => 
                     navigate('Input')} 
@@ -19,6 +21,8 @@ class HomeScreen extends React.Component {
             <NavButton
                 content='ABOUT'
                 theme='about'
+                color='white'
+                fontSize={22}
                 handlePress={() => 
                     navigate('About')}
             />

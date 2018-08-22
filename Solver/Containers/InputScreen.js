@@ -15,6 +15,7 @@ class InputScreen extends React.Component {
             )}
     } 
     render() {
+        const { navigate } = this.props.navigation
         return (
             <View style={inputStyles.container}>
                 <Text style={inputStyles.content}> 
@@ -24,6 +25,23 @@ class InputScreen extends React.Component {
                     then input the numbers that you have
                 </Text>
                 <Table/>
+                <View style={{flexDirection:'row'}}>
+                    <NavButton
+                    handlePress={() => navigate('Solution')}
+                    theme='solve'
+                    content='SOLVE'
+                    fontSize={20}
+                    color='black'
+                    size={90}
+                    scale={1}
+                    />
+                    <NavButton
+                    theme='restart'
+                    content='RESTART'
+                    fontSize={20}
+                    color='white'
+                    />
+                </View>
             </View>
         )
     }
