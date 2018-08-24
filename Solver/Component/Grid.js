@@ -1,10 +1,38 @@
 import React from 'react'
 import { View, TouchableOpacity } from 'react-native'
+import { connect } from 'react-redux'
+import Creators, { GlobalTypes, selectGridVisible } from '../Redux/AppRedux'
 
-export class Grid extends React.Component {
+class DisconnectGrid extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            location: 0,
+            gridVisible: []
+        }
+    }
+
+    componentDidMount() {
+        var location = this.props.location
+        this.setState({
+            location: location,
+            gridVisible: this.props.gridVisible
+        })
+    }
+
+    grabLocation() {
+        return this.props.location
+    }
+
+    executeReturn(location) {
+        this.props.updateModalVisibility(location)
+    }
+
     render () {
         return (
-            <TouchableOpacity style={{flexDirection:'row'}}>
+            <TouchableOpacity style={{flexDirection:'row'}}
+                onPress={() => this.executeReturn(this.state.location)}
+            >
                 <View stlye={{flexDirection: 'column'}}>
                     <View style={{width:35, height:35, borderColor: 'black', borderLeftWidth:2, borderTopWidth:2}}/>
                     <View style={{width:35, height:35, borderColor: 'black', borderLeftWidth:2, borderTopWidth: 1, borderBottomWidth:1}}/>
@@ -24,3 +52,18 @@ export class Grid extends React.Component {
     )}
 }
 
+const mapStateToProps = (state) => {
+    return {
+        gridVisible: selectGridVisible(state)
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateModalVisibility: (pos) => {
+            dispatch(Creators.updateModalVisibility(pos))
+        }
+    }
+}
+
+export const Grid = connect(mapStateToProps, mapDispatchToProps)(DisconnectGrid)
