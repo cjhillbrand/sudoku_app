@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import { NavButton } from '../Component/NavButton'
 import { inputStyles } from '../styles/input-screen-styles';
 import { Table } from '../Component/Table';
-import { GlobalTypes, selectGridVisible, selectData } from '../Redux/AppRedux';
+import Creators, { selectGridVisible, selectData } from '../Redux/AppRedux';
 import { connect } from 'react-redux'
 import ZoomModal from '../Component/ZoomModal';
 
@@ -29,28 +29,22 @@ class InputScreen extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        const { position } = newProps
-        if (position != 0) {
+        const { gridVisible } = newProps
+        if (gridVisible != 0) {
             this.setState({
                 showModal: true,
-                modalPos: position
+                modalPos: gridVisible
+            })
+        } else {
+            this.setState({
+                showModal: false,
+                modalPos: 0
             })
         }
-        //console.log(newProps.gridVisible)
-        // for (var i = 0; i < 9; i++) {
-        //     if (newState.gridVisible[i]) {
-        //         this.setState({
-        //             modalPos: i + 1,
-        //             showModal: true
-        //         })
-        //         break
-        //     }
-        // }
     }
 
-    showModal(value) {
-        console.log("we triggered this function")
-        
+    hideModal() {
+        this.props.updateModalVisibility(0)
     }
 
     render() {
@@ -83,7 +77,8 @@ class InputScreen extends React.Component {
                 </View>
                 <ZoomModal
                 visible={this.state.showModal}
-                position={this.state.modalPosition}/>
+                position={this.state.modalPosition}
+                handlePress={() => this.hideModal()}/>
             </View>
         )
     }
@@ -99,10 +94,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         updateSquare: (col, row, value) => {
-            dispatch(GlobalTypes.updateSquare(col, row, value))
+            dispatch(Creators.updateSquare(col, row, value))
         },
         updateModalVisibility: (pos) => {
-            dispatch(GlobalTypes.updateModalVisibility(pos))
+            dispatch(Creators.updateModalVisibility(pos))
         }
     }
 }
