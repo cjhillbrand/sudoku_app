@@ -27,6 +27,9 @@ export class NavButton extends React.Component {
         if (theme == 'restart') {
             return buttonStyles.restartButton
         }
+        if (theme == 'return') {
+            return buttonStyles.returnButton
+        }
     }
 
     grabTextStyle(color, fontSize) {

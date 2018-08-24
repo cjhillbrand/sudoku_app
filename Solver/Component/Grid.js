@@ -4,11 +4,16 @@ import { connect } from 'react-redux'
 import Creators, { GlobalTypes, selectGridVisible } from '../Redux/AppRedux'
 
 class DisconnectGrid extends React.Component {
+    static defaultProps = {
+        size: 35,
+        touchable: false
+    }
+    
     constructor(props) {
         super(props)
         this.state = {
             location: 0,
-            gridVisible: []
+            gridVisible: [],
         }
     }
 
@@ -21,34 +26,68 @@ class DisconnectGrid extends React.Component {
     }
 
     grabLocation() {
-        return this.props.location
+        return this.state.location
     }
 
     executeReturn(location) {
         this.props.updateModalVisibility(location)
     }
 
-    render () {
+    renderTouchGrid(size) {
         return (
-            <TouchableOpacity style={{flexDirection:'row'}}
-                onPress={() => this.executeReturn(this.state.location)}
-            >
+            <TouchableOpacity style={{flexDirection: 'row'}} 
+            onPress={() => this.executeReturn(this.state.location)}>
                 <View stlye={{flexDirection: 'column'}}>
-                    <View style={{width:35, height:35, borderColor: 'black', borderLeftWidth:2, borderTopWidth:2}}/>
-                    <View style={{width:35, height:35, borderColor: 'black', borderLeftWidth:2, borderTopWidth: 1, borderBottomWidth:1}}/>
-                    <View style={{width:35, height:35, borderColor: 'black', borderLeftWidth:2, borderBottomWidth:2}}/>
+                    <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderTopWidth:2}}/>
+                    <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderTopWidth: 1, borderBottomWidth:1}}/>
+                    <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderBottomWidth:2}}/>
                 </View>
                 <View style={{flexDirection: 'column'}}>
-                    <View style={{width:35, height:35, borderColor: 'black', borderTopWidth:2, borderLeftWidth:1, borderRightWidth:1}}/>
-                    <View style={{width:35, height:35, borderColor: 'black', borderWidth:1}}/>
-                    <View style={{width:35, height:35, borderColor: 'black', borderBottomWidth:2, borderLeftWidth:1, borderRightWidth:1}}/>
+                    <View style={{width:size, height:size, borderColor: 'black', borderTopWidth:2, borderLeftWidth:1, borderRightWidth:1}}/>
+                    <View style={{width:size, height:size, borderColor: 'black', borderWidth:1}}/>
+                    <View style={{width:size, height:size, borderColor: 'black', borderBottomWidth:2, borderLeftWidth:1, borderRightWidth:1}}/>
                 </View>
                 <View style={{flexDirection: 'column'}}>
-                    <View style={{width:35, height:35, borderColor: 'black', borderTopWidth:2, borderRightWidth:2}}/>
-                    <View style={{width:35, height:35, borderColor: 'black', borderRightWidth:2, borderTopWidth:1, borderBottomWidth:1}}/>
-                    <View style={{width:35, height:35, borderColor: 'black', borderBottomWidth:2, borderRightWidth:2}}/>
+                    <View style={{width:size, height:size, borderColor: 'black', borderTopWidth:2, borderRightWidth:2}}/>
+                    <View style={{width:size, height:size, borderColor: 'black', borderRightWidth:2, borderTopWidth:1, borderBottomWidth:1}}/>
+                    <View style={{width:size, height:size, borderColor: 'black', borderBottomWidth:2, borderRightWidth:2}}/>
                 </View>
             </TouchableOpacity>
+        )
+    }
+
+    renderBaseGrid(size) {
+        return (
+            <View style={{flexDirection: 'row'}}>
+                <View stlye={{flexDirection: 'column'}}>
+                        <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderTopWidth:2}}/>
+                        <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderTopWidth: 1, borderBottomWidth:1}}/>
+                        <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderBottomWidth:2}}/>
+                    </View>
+                    <View style={{flexDirection: 'column'}}>
+                        <View style={{width:size, height:size, borderColor: 'black', borderTopWidth:2, borderLeftWidth:1, borderRightWidth:1}}/>
+                        <View style={{width:size, height:size, borderColor: 'black', borderWidth:1}}/>
+                        <View style={{width:size, height:size, borderColor: 'black', borderBottomWidth:2, borderLeftWidth:1, borderRightWidth:1}}/>
+                    </View>
+                    <View style={{flexDirection: 'column'}}>
+                        <View style={{width:size, height:size, borderColor: 'black', borderTopWidth:2, borderRightWidth:2}}/>
+                        <View style={{width:size, height:size, borderColor: 'black', borderRightWidth:2, borderTopWidth:1, borderBottomWidth:1}}/>
+                        <View style={{width:size, height:size, borderColor: 'black', borderBottomWidth:2, borderRightWidth:2}}/>
+                    </View>
+            </View>
+        )
+    }
+
+    renderTouch(touchable, size) {
+        if (touchable) {
+            return (this.renderTouchGrid(size))
+        }
+        return (this.renderBaseGrid(size))
+    }
+    render () {
+        const { size, touchable } = this.props
+        return (
+            this.renderTouch(touchable, size)
     )}
 }
 

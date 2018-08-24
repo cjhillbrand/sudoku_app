@@ -1,6 +1,8 @@
 import React from 'react'
-import { Modal, Button, View } from 'react-native'
+import { Modal, Button, View, Text } from 'react-native'
 import { Grid } from './Grid'
+import { zoomModalStyles } from '../styles/zoom-modal-styles'
+import { NavButton } from './NavButton';
 
 export default class ZoomModal extends React.Component {
     static defaultProps = {
@@ -26,12 +28,17 @@ export default class ZoomModal extends React.Component {
             animationType='slide'
             visible={visible}
             >
-            <View style={{flex: 1, marginTop: 300, alignItems: 'center'}}>
+            <View style={zoomModalStyles.container}>
+            <Text style={zoomModalStyles.content}> Drag and Input #'s </Text>
+            <Text style={zoomModalStyles.content}> From your Puzzle </Text>
             <Grid
-            location={position} />
-            <Button
-                title='close'
-                onPress={() => this.hideModal()}
+            location={position}
+            size={85} />
+            <NavButton
+                content='RETURN'
+                theme='return'
+                color='black'
+                handlePress={() => this.hideModal()}
             />
             </View>
             </Modal>

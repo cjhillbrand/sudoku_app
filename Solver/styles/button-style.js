@@ -45,6 +45,13 @@ const buttonStyles = StyleSheet.create({
         marginLeft:15,
         alignItems:'center'
     },
+    returnButton: {
+        borderRadius: 16,
+        width: 100,
+        height: 40,
+        backgroundColor: 'black',
+        marginTop: 15
+    },
     blackButton:{
         backgroundColor:'black'
     },

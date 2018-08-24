@@ -57,7 +57,8 @@ class InputScreen extends React.Component {
                 <Text style={inputStyles.content}> 
                     then input the numbers that you have
                 </Text>
-                <Table/>
+                <Table
+                    touchable={true}/>
                 <View style={{flexDirection:'row'}}>
                     <NavButton
                     handlePress={() => navigate('Solution')}
