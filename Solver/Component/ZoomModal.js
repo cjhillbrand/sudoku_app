@@ -1,6 +1,7 @@
 import React from 'react'
 import { Modal, Button, View, Text } from 'react-native'
 import { Grid } from './Grid'
+import { Icon } from 'react-native-elements'
 import { zoomModalStyles } from '../styles/zoom-modal-styles'
 import { NavButton } from './NavButton';
 
@@ -31,6 +32,9 @@ export default class ZoomModal extends React.Component {
             <View style={zoomModalStyles.container}>
             <Text style={zoomModalStyles.content}> Drag and Input #'s </Text>
             <Text style={zoomModalStyles.content}> From your Puzzle </Text>
+            <Icon 
+                name='chevron-up'
+            />
             <Grid
             location={position}
             size={85} />
