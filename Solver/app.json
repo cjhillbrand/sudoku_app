@@ -1,4 +1,5 @@
 {
-  "name": "Solver",
-  "displayName": "Solver"
+  "expo": {
+    "sdkVersion": "27.0.0"
+  }
 }
