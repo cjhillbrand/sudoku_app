@@ -78,7 +78,7 @@ class InputScreen extends React.Component {
                 </View>
                 <ZoomModal
                 visible={this.state.showModal}
-                position={this.state.modalPosition}
+                position={this.state.modalPos}
                 handlePress={() => this.hideModal()}/>
             </View>
         )
