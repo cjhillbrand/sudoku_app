@@ -1,11 +1,12 @@
 import React from 'react'
-import { Modal, Button, View, Text } from 'react-native'
+import { Modal, View, Text } from 'react-native'
 import { Grid } from './Grid'
 import { zoomModalStyles } from '../styles/zoom-modal-styles'
 import { NavButton } from './NavButton';
 import { Icon } from 'react-native-elements'
 import Creators from '../Redux/AppRedux'
 import { connect } from 'react-redux'
+import Draggable from './Draggable'
 
 class DisconnectedZoomModal extends React.Component {
     static defaultProps = {
@@ -25,6 +26,27 @@ class DisconnectedZoomModal extends React.Component {
     renderBlank() {
         return (
             <View style={{width: 65, height: 65}}/>
+        )
+    }
+
+    renderAvailableInput() {
+        return (
+            <View style={{borderColor: 'black', flexDirection: 'column',
+            borderWidth: 3, padding:5, alignItems:'center'}}>
+            <View style={{flexDirection: 'row', alignItems:'center'}}>
+                <Draggable value={1}/>
+                <Draggable value={2}/>
+                <Draggable value={3}/>
+                <Draggable value={4}/>
+                <Draggable value={5}/>
+            </View>
+            <View style={{flexDirection: 'row', alignItems:'center'}}>
+                <Draggable value={6}/>
+                <Draggable value={7}/>
+                <Draggable value={8}/>
+                <Draggable value={9}/>
+            </View>
+            </View>
         )
     }
 
@@ -91,11 +113,10 @@ class DisconnectedZoomModal extends React.Component {
     render() {
         const { visible, position } = this.props
         if (!visible) return null
-        console.log(this.props)
         return(
             <Modal
             ref={'ZoomModal'}
-            animationType='slide'
+            animationType='fade'
             visible={visible}
             >
             <View style={zoomModalStyles.container}>
@@ -110,6 +131,7 @@ class DisconnectedZoomModal extends React.Component {
             {this.renderRightArrow(position)}
             </View>
             {this.renderDownArrow(position)}
+            {this.renderAvailableInput()}
             <NavButton
                 content='RETURN'
                 theme='return'
