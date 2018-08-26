@@ -1,12 +1,12 @@
 import React from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import Creators, { GlobalTypes, selectGridVisible } from '../Redux/AppRedux'
+import Creators, { selectGridVisible } from '../Redux/AppRedux'
 
 class DisconnectGrid extends React.Component {
     static defaultProps = {
         size: 35,
-        touchable: false
+        touchable: false,
     }
     
     constructor(props) {
@@ -14,14 +14,15 @@ class DisconnectGrid extends React.Component {
         this.state = {
             location: 0,
             gridVisible: [],
+            dropZoneValues: null
         }
     }
 
     componentDidMount() {
-        var location = this.props.location
+        const {location, gridVisible } = this.props
         this.setState({
             location: location,
-            gridVisible: this.props.gridVisible
+            gridVisible: gridVisible
         })
     }
 
@@ -56,9 +57,18 @@ class DisconnectGrid extends React.Component {
         )
     }
 
+    setDropZoneValues(event) {
+        const values = event.nativeEvent.layout
+        this.setState({
+            dropZoneValues: values
+        })
+        this.props.updateDropZoneValues(values)
+    }
+
     renderBaseGrid(size) {
         return (
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row'}}
+                onLayout={this.setDropZoneValues.bind(this)}>
                 <View stlye={{flexDirection: 'column'}}>
                         <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderTopWidth:2}}/>
                         <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderTopWidth: 1, borderBottomWidth:1}}/>
@@ -93,7 +103,7 @@ class DisconnectGrid extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        gridVisible: selectGridVisible(state)
+        gridVisible: selectGridVisible(state),
     }
 }
 
@@ -101,7 +111,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
         updateModalVisibility: (pos) => {
             dispatch(Creators.updateModalVisibility(pos))
-        }
+        },
+        updateDropZoneValues: (values) => {
+            dispatch(Creators.updateDropZoneValues(values))
+        },
     }
 }
 

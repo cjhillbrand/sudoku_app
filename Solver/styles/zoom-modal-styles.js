@@ -10,16 +10,19 @@ const zoomModalStyles = StyleSheet.create({
         fontFamily: 'Bangla Sangam MN',
         fontSize: 26
     },
-    numbers: {
-        width: 50, 
-        height: 50, 
+    numbersContainer: {
+        width: 55, 
+        height: 55, 
         backgroundColor: 'black', 
-        color: 'white',
         marginVertical: 5,
         marginHorizontal: 5,
-        fontSize: 45,
+        borderRadius: 12
+    },
+    numbers: {
         fontFamily: 'Bangla Sangam MN',
         textAlign: 'center',
+        color: 'white',
+        fontSize: 45
     }
 })
 

@@ -4,7 +4,7 @@ import { Grid } from './Grid'
 import { zoomModalStyles } from '../styles/zoom-modal-styles'
 import { NavButton } from './NavButton';
 import { Icon } from 'react-native-elements'
-import Creators from '../Redux/AppRedux'
+import Creators, { selectDropZoneValues } from '../Redux/AppRedux'
 import { connect } from 'react-redux'
 import Draggable from './Draggable'
 
@@ -16,6 +16,11 @@ class DisconnectedZoomModal extends React.Component {
     }
     constructor(props) {
         super(props)
+        this.renderAvailableInput = this.renderAvailableInput.bind(this)
+        this.state = {
+            height: 50,
+            offSetLat: 0
+        }
     }
 
     hideModal() {
@@ -23,30 +28,61 @@ class DisconnectedZoomModal extends React.Component {
         handlePress()       
     }
 
-    renderBlank() {
+    renderBlank(setLat) {
+        if (setLat) {
+            return <View 
+            onLayout={this.setLatState.bind(this)} 
+            style={{width: 65, height: 65}}/>
+        }
         return (
             <View style={{width: 65, height: 65}}/>
         )
     }
 
+    setHeightState(event) {
+        const { layout }= event.nativeEvent
+        var newHeight = this.state.height + layout.height
+        this.setState({
+            height: newHeight
+        })
+    }
+
+    setLatState(event) {
+        this.setState({
+            offSetLat: event.nativeEvent.layout.width
+        })
+    }
+
     renderAvailableInput() {
         return (
             <View style={{borderColor: 'black', flexDirection: 'column',
-            borderWidth: 3, padding:5, alignItems:'center'}}>
+            borderWidth: 3, padding:5, alignItems:'center', borderRadius: 20}}>
             <View style={{flexDirection: 'row', alignItems:'center'}}>
-                <Draggable value={1}/>
-                <Draggable value={2}/>
-                <Draggable value={3}/>
-                <Draggable value={4}/>
-                <Draggable value={5}/>
+                {this.renderDraggable(1)}
+                {this.renderDraggable(2)}
+                {this.renderDraggable(3)}
+                {this.renderDraggable(4)}
+                {this.renderDraggable(5)}
             </View>
             <View style={{flexDirection: 'row', alignItems:'center'}}>
-                <Draggable value={6}/>
-                <Draggable value={7}/>
-                <Draggable value={8}/>
-                <Draggable value={9}/>
+                {this.renderDraggable(6)}
+                {this.renderDraggable(7)}
+                {this.renderDraggable(8)}
+                {this.renderDraggable(9)}
             </View>
             </View>
+        )
+    }
+
+    renderDraggable(value) {
+        const { dropZoneValues } = this.props
+        return (
+            <Draggable
+            value={value}
+            dropZoneValues={dropZoneValues}
+            topMargin={this.state.height}
+            offSetLat={this.state.offSetLat}
+            />
         )
     }
 
@@ -62,10 +98,11 @@ class DisconnectedZoomModal extends React.Component {
                     name='angle-up'
                     type='font-awesome'
                     onPress={() => this.updatePos(direction - 3)}
+                    onLayout={this.setHeightState.bind(this)}
                 />
             )
         } 
-        return this.renderBlank()
+        return this.renderBlank(true)
     }
 
     renderDownArrow(direction) {
@@ -79,7 +116,7 @@ class DisconnectedZoomModal extends React.Component {
                 />
             )
         }
-        return this.renderBlank()
+        return this.renderBlank(false)
     }
 
     renderLeftArrow(direction) {
@@ -90,10 +127,11 @@ class DisconnectedZoomModal extends React.Component {
                     name='angle-left'
                     type='font-awesome'
                     onPress={() => this.updatePos(direction -  1)}
+                    onLayout={this.setLatState.bind(this)}
                 />
             )
         }
-        return this.renderBlank()
+        return this.renderBlank(false)
     }
 
     renderRightArrow(direction) {
@@ -107,7 +145,7 @@ class DisconnectedZoomModal extends React.Component {
                 />
             )
         }
-        return this.renderBlank()
+        return this.renderBlank(false)
     }
 
     render() {
@@ -120,8 +158,16 @@ class DisconnectedZoomModal extends React.Component {
             visible={visible}
             >
             <View style={zoomModalStyles.container}>
-            <Text style={zoomModalStyles.content}> Drag and Input #'s </Text>
-            <Text style={zoomModalStyles.content}> From your Puzzle </Text>
+            <Text 
+            onLayout={this.setHeightState.bind(this)}
+            style={zoomModalStyles.content}> 
+            Drag and Input #'s 
+            </Text>
+            <Text 
+            onLayout={this.setHeightState.bind(this)}
+            style={zoomModalStyles.content}>
+            From your Puzzle
+            </Text>
             {this.renderUpArrow(position)}
             <View style={{flexDirection:'row', alignItems:'center'}}>
             {this.renderLeftArrow(position)}
@@ -143,6 +189,12 @@ class DisconnectedZoomModal extends React.Component {
     )}
 }
 
+const mapStateToProps = (state) => {
+    return {
+        dropZoneValues: selectDropZoneValues(state)
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         updateModalVisibility: (pos) => {
@@ -151,4 +203,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default ZoomModal = connect(null, mapDispatchToProps)(DisconnectedZoomModal)
+export default ZoomModal = connect(mapStateToProps, mapDispatchToProps)(DisconnectedZoomModal)

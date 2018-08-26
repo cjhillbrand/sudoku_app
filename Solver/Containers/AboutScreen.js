@@ -16,7 +16,7 @@ class AboutScreen extends React.Component {
     render () {
         return (
             <View style={aboutStyles.container}>
-                <Text style={aboutStyles.content}>
+                {/* <Text style={aboutStyles.content}>
                     Welcome to my first App, this is an app designed by one of my 
                     good friends, hopefully to be deployed by one of my old bosses
                     and created by me :). This app is a sudoku solver with manual input,
@@ -25,7 +25,8 @@ class AboutScreen extends React.Component {
                 <Text style={aboutStyles.content}>
                     This app is dedicated
                     to my mom, Happy Birthday 
-                </Text>
+                </Text> */}
+                <Text style ={aboutStyles.content}>Pretty Self explanatory it solves sudoku puzzles</Text>
             </View>
         )
     }

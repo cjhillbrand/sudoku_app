@@ -1,12 +1,14 @@
 import React from 'react'
-import { StyleSheet, Text, Animated, PanResponder } from 'react-native'
+import { Text, Animated, PanResponder } from 'react-native'
 import {zoomModalStyles} from '../styles/zoom-modal-styles'
 
 export default class Draggable extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            pan: new Animated.ValueXY()
+            pan: new Animated.ValueXY(),
+            dropZoneValues: null,
+            showDrag: true,
         } 
         this.panResponder = PanResponder.create({
             onStartShouldSetPanResponder: (e, gesture) => true,
@@ -14,12 +16,44 @@ export default class Draggable extends React.Component {
               null, { dx: this.state.pan.x, dy: this.state.pan.y }
             ]),
             onPanResponderRelease: (e, gesture) => {
-                Animated.spring(
-                    this.state.pan,
-                    {toValue:{x:0,y:0}}
-                ).start()
+                if (this.isDropZone(gesture)) {
+                    Animated.spring(
+                        this.state.pan,
+                        {toValue:this.placeObject(gesture)}
+                    ).start()
+                } else {
+                    Animated.spring(
+                        this.state.pan,
+                        {toValue:{x:0,y:0}}
+                    ).start()
+                }
             }
         });
+    }
+
+    placeObject(gesture) {
+        const y = gesture.moveY
+        const x = gesture.moveX
+        const dz = this.props.dropZoneValues
+        let gridLocation = {
+            x: this.props.offSetLat,
+            y: this.props.topMargin,
+            width: dz.width,
+            height: dz.height,
+        }
+        console.log(gridLocation)
+        if (x < gridLocation.x + gridLocation.width / 3) {
+            return {x: gridLocation.x + gridLocation.width/6, 
+                y: gridLocation.y + gridLocation.height/6}
+        }
+    }
+
+    isDropZone(gesture) {
+        var dz = this.props.dropZoneValues
+        const height = this.props.topMargin
+
+        return (gesture.moveY > dz.y + height && gesture.moveY < dz.y + dz.height + height) &&
+            (gesture.moveX > dz.x && gesture.moveX < dz.x + dz.width);
     }
 
     render() {
@@ -30,20 +64,11 @@ export default class Draggable extends React.Component {
         return (
             <Animated.View
             {...this.panResponder.panHandlers}
-            style={[panStyle]}
+            style={[panStyle, zoomModalStyles.numbersContainer]}
+            accessibilityLabel={value}
             >
             <Text style={zoomModalStyles.numbers}> {value} </Text>
             </Animated.View>
         );
     }
 }
-
-let CIRCLE_RADIUS = 30;
-let styles = StyleSheet.create({
-  circle: {
-    backgroundColor: "skyblue",
-    width: CIRCLE_RADIUS * 2,
-    height: CIRCLE_RADIUS * 2,
-    borderRadius: CIRCLE_RADIUS
-  }
-});
