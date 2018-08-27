@@ -1,7 +1,8 @@
 import React from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, Text } from 'react-native'
 import { connect } from 'react-redux'
 import Creators, { selectGridVisible, selectData } from '../Redux/AppRedux'
+import { zoomModalStyles } from '../styles/zoom-modal-styles';
 
 class DisconnectGrid extends React.Component {
     static defaultProps = {
@@ -52,25 +53,26 @@ class DisconnectGrid extends React.Component {
             <TouchableOpacity style={{flexDirection: 'row'}} 
             onPress={() => this.executeReturn(this.state.location)}>
                 <View stlye={{flexDirection: 'column'}}>
-                    <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderTopWidth:2}}/>
-                    <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderTopWidth: 1, borderBottomWidth:1}}/>
-                    <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderBottomWidth:2}}/>
+                    {this.renderBox(size, {col:0,row:0}, 0, 2, 2, 0)}
+                    {this.renderBox(size, {col:0,row:1}, 0, 2, 1, 1)}
+                    {this.renderBox(size, {col:0,row:2}, 0, 2, 0, 2)}
                 </View>
                 <View style={{flexDirection: 'column'}}>
-                    <View style={{width:size, height:size, borderColor: 'black', borderTopWidth:2, borderLeftWidth:1, borderRightWidth:1}}/>
-                    <View style={{width:size, height:size, borderColor: 'black', borderWidth:1}}/>
-                    <View style={{width:size, height:size, borderColor: 'black', borderBottomWidth:2, borderLeftWidth:1, borderRightWidth:1}}/>
+                    {this.renderBox(size, {col:1,row:0}, 1, 1, 2, 0)}
+                    {this.renderBox(size, {col:1,row:1}, 1, 1, 1, 1)}
+                    {this.renderBox(size, {col:1,row:2}, 1, 1, 0, 2)}
                 </View>
                 <View style={{flexDirection: 'column'}}>
-                    <View style={{width:size, height:size, borderColor: 'black', borderTopWidth:2, borderRightWidth:2}}/>
-                    <View style={{width:size, height:size, borderColor: 'black', borderRightWidth:2, borderTopWidth:1, borderBottomWidth:1}}/>
-                    <View style={{width:size, height:size, borderColor: 'black', borderBottomWidth:2, borderRightWidth:2}}/>
+                    {this.renderBox(size, {col:2,row:0}, 2, 0, 2, 0)}
+                    {this.renderBox(size, {col:2,row:1}, 2, 0, 1, 1)}
+                    {this.renderBox(size, {col:2,row:2}, 2, 0, 0, 2)}
                 </View>
             </TouchableOpacity>
         )
     }
 
     grabThisGridData() {
+        if (this.state.data == null) return null
         var result = new Array(3)
         for (var i = 0; i < 3; i++) {
             result[i] = new Array(3)
@@ -90,12 +92,14 @@ class DisconnectGrid extends React.Component {
         } else {
             startCol = 6
         }
-        console.log(this.state.data)
-        // for (var i = 0; i < 3; i++) {
-        //     for (var j = 0; j < 3; j++) {
-        //         result[i][j] = this.state.data[startCol + i][startRow + j] 
-        //     }
-        // }
+        for (var i = 0; i < 3; i++) {
+            for (var j = 0; j < 3; j++) {
+                result[i][j] = this.state.data[startCol + i][startRow + j] 
+            }
+        }
+        this.setState({
+            gridData: result
+        })
     }
 
     setDropZoneValues(event) {
@@ -111,21 +115,38 @@ class DisconnectGrid extends React.Component {
             <View style={{flexDirection: 'row'}}
                 onLayout={this.setDropZoneValues.bind(this)}>
                 <View stlye={{flexDirection: 'column'}}>
-                        <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderTopWidth:2}}/>
-                        <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderTopWidth: 1, borderBottomWidth:1}}/>
-                        <View style={{width:size, height:size, borderColor: 'black', borderLeftWidth:2, borderBottomWidth:2}}/>
-                    </View>
-                    <View style={{flexDirection: 'column'}}>
-                        <View style={{width:size, height:size, borderColor: 'black', borderTopWidth:2, borderLeftWidth:1, borderRightWidth:1}}/>
-                        <View style={{width:size, height:size, borderColor: 'black', borderWidth:1}}/>
-                        <View style={{width:size, height:size, borderColor: 'black', borderBottomWidth:2, borderLeftWidth:1, borderRightWidth:1}}/>
-                    </View>
-                    <View style={{flexDirection: 'column'}}>
-                        <View style={{width:size, height:size, borderColor: 'black', borderTopWidth:2, borderRightWidth:2}}/>
-                        <View style={{width:size, height:size, borderColor: 'black', borderRightWidth:2, borderTopWidth:1, borderBottomWidth:1}}/>
-                        <View style={{width:size, height:size, borderColor: 'black', borderBottomWidth:2, borderRightWidth:2}}/>
-                    </View>
+                    {this.renderBox(size, {col:0,row:0}, 0, 2, 2, 0)}
+                    {this.renderBox(size, {col:0,row:1}, 0, 2, 1, 1)}
+                    {this.renderBox(size, {col:0,row:2}, 0, 2, 0, 2)}        
+                </View>
+                <View style={{flexDirection: 'column'}}>
+                    {this.renderBox(size, {col:1,row:0}, 1, 1, 2, 0)}
+                    {this.renderBox(size, {col:1,row:1}, 1, 1, 1, 1)}
+                    {this.renderBox(size, {col:1,row:2}, 1, 1, 0, 2)}
+                </View>
+                <View style={{flexDirection: 'column'}}>
+                    {this.renderBox(size, {col:2,row:0}, 2, 0, 2, 0)}
+                    {this.renderBox(size, {col:2,row:1}, 2, 0, 1, 1)}
+                    {this.renderBox(size, {col:2,row:2}, 2, 0, 0, 2)}
+                </View>
             </View>
+        )
+    }
+
+    renderBox(size, pos, rWidth, lWidth, tWidth, bWidth) {
+        const gd = this.state.gridData
+        const varStyle = {borderRightWidth:rWidth, borderLeftWidth:lWidth, borderColor:'black', 
+                            borderTopWidth:tWidth, borderBottomWidth:bWidth, width:size, height:size}
+        if (gd == null) return <View style={varStyle}/>
+        if (gd[pos.col][pos.row] != null) {
+            return (
+                <View style={[varStyle]}>
+                <Text style={[zoomModalStyles.numbers, {fontSize:size*2/3, color:'black', fontWeight:'bold'}]}>{gd[pos.col][pos.row]}</Text> 
+                </View>
+            )
+        }
+        return (
+            <View style={varStyle}/>
         )
     }
 

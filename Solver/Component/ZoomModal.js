@@ -20,7 +20,9 @@ class DisconnectedZoomModal extends React.Component {
         this.renderDraggable = this.renderDraggable.bind(this)
         this.state = {
             height: 50,
-            offSetLat: 0
+            offSetLat: 0,
+            countHeight: 0,
+            countLat: 0,
         }
     }
 
@@ -29,10 +31,14 @@ class DisconnectedZoomModal extends React.Component {
         handlePress()       
     }
 
-    renderBlank(setLat) {
-        if (setLat) {
+    renderBlank(setLat, up) {
+        if (setLat && up) {
             return <View 
-            onLayout={this.setLatState.bind(this)} 
+            onLayout={this.setHeightState.bind(this)} 
+            style={{width: 65, height: 65}}/>
+        } else if (setLat) {
+            return <View
+            onLayout={this.setLatState.bind(this)}
             style={{width: 65, height: 65}}/>
         }
         return (
@@ -41,16 +47,20 @@ class DisconnectedZoomModal extends React.Component {
     }
 
     setHeightState(event) {
+        if (this.state.countHeight == 3) return 
         const { layout }= event.nativeEvent
-        var newHeight = this.state.height + layout.height
         this.setState({
-            height: newHeight
+            height: this.state.height + layout.height,
+            countHeight: this.state.countHeight + 1
         })
+        console.log('Height: ' + this.state.countHeight)
     }
 
     setLatState(event) {
+        if (this.state.countLat == 1) return
         this.setState({
-            offSetLat: event.nativeEvent.layout.width
+            offSetLat: event.nativeEvent.layout.width,
+            countLat: this.state.countLat + 1
         })
     }
 
@@ -104,7 +114,7 @@ class DisconnectedZoomModal extends React.Component {
                 />
             )
         } 
-        return this.renderBlank(true)
+        return this.renderBlank(true, true)
     }
 
     renderDownArrow(direction) {
@@ -118,7 +128,7 @@ class DisconnectedZoomModal extends React.Component {
                 />
             )
         }
-        return this.renderBlank(false)
+        return this.renderBlank(false, false)
     }
 
     renderLeftArrow(direction) {
@@ -133,7 +143,7 @@ class DisconnectedZoomModal extends React.Component {
                 />
             )
         }
-        return this.renderBlank(false)
+        return this.renderBlank(true, false)
     }
 
     renderRightArrow(direction) {
@@ -147,7 +157,7 @@ class DisconnectedZoomModal extends React.Component {
                 />
             )
         }
-        return this.renderBlank(false)
+        return this.renderBlank(false, false)
     }
 
     render() {

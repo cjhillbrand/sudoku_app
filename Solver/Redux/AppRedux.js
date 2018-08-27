@@ -30,9 +30,6 @@ export const INITIAL_STATE = Immutable({
 
 /*-------------------Reducers-------------------*/
 export function updateSquare(state, {col, row, value}) {
-    console.log(value)
-    console.log(col)
-    console.log(row)
     var temp = new Array(9)
     for (var i = 0; i < 9; i++) {
         temp[i] = new Array(9)

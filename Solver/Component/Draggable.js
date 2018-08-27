@@ -46,7 +46,7 @@ class DisconnectedDraggable extends React.Component {
             width: dz.width,
             height: dz.height,
         }
-        const { grid } = this.props.grid
+        const grid = this.props.grid
         if (grid < 4) {
             row = [0,1,2]
         } else if (grid > 3 && grid < 7) {
@@ -97,7 +97,7 @@ class DisconnectedDraggable extends React.Component {
         } else if (x > gridLocation.x + gridLocation.width / 3 &&
             x < gridLocation.x + gridLocation.width * 2 / 3 &&
             y > gridLocation.y + gridLocation.height * 2 /3) {
-                this.props.updateSquare(col[2], row[2], value)
+                this.props.updateSquare(col[1], row[2], value)
                 console.log(value + ': placed in bottom middle box')
         } else if (x > gridLocation.x + gridLocation.width * 2 / 3 &&
             y > gridLocation.y + gridLocation.height * 2 / 3) {
