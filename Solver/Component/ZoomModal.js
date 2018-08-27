@@ -17,6 +17,7 @@ class DisconnectedZoomModal extends React.Component {
     constructor(props) {
         super(props)
         this.renderAvailableInput = this.renderAvailableInput.bind(this)
+        this.renderDraggable = this.renderDraggable.bind(this)
         this.state = {
             height: 50,
             offSetLat: 0
@@ -82,6 +83,7 @@ class DisconnectedZoomModal extends React.Component {
             dropZoneValues={dropZoneValues}
             topMargin={this.state.height}
             offSetLat={this.state.offSetLat}
+            grid={this.props.position}
             />
         )
     }

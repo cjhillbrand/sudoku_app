@@ -18,16 +18,35 @@ export const selectData = (state) => state.data
 export const selectDropZoneValues = (state) => state.dropZoneValues
 
 /*---------------InitialState---------------*/
+var init = new Array(9)
+for (var i = 0; i < 9; i++) {
+    init[i] = new Array(9)
+}
 export const INITIAL_STATE = Immutable({
     gridVisible: 0,
-    data: [null][null],
+    data: init,
     dropZoneValues: null
 })
 
 /*-------------------Reducers-------------------*/
 export function updateSquare(state, {col, row, value}) {
-    state.data[col][row] = value
-    return state
+    console.log(value)
+    console.log(col)
+    console.log(row)
+    var temp = new Array(9)
+    for (var i = 0; i < 9; i++) {
+        temp[i] = new Array(9)
+    }
+    for (var i = 0; i < 9; i++) {
+        for (var j = 0; j < 9; j++) {
+            if (i == col && j == row) {
+                temp[i][j] = value
+            } else {
+                temp[i][j] = state.data[i][j]
+            }
+        }
+    }
+    return state.merge({ data: temp })
 }
 export const updateModalVisibility = (state, {pos}) => state.merge({ gridVisible: pos })
 export const updateDropZoneValues = (state, {values}) => state.merge({ dropZoneValues: values})
