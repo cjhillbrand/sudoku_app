@@ -6,7 +6,8 @@ import Immutable from 'seamless-immutable'
 const { Types, Creators } = createActions({
     updateSquare: ['col', 'row', 'value'],
     updateModalVisibility: ['pos'],
-    updateDropZoneValues: ['values']
+    updateDropZoneValues: ['values'],
+    resetTable: null
 })
 
 export const GlobalTypes = Types
@@ -45,6 +46,8 @@ export function updateSquare(state, {col, row, value}) {
     }
     return state.merge({ data: temp })
 }
+
+export const resetTable = (state) => state.merge({ data: init })
 export const updateModalVisibility = (state, {pos}) => state.merge({ gridVisible: pos })
 export const updateDropZoneValues = (state, {values}) => state.merge({ dropZoneValues: values})
 
@@ -52,5 +55,6 @@ export const updateDropZoneValues = (state, {values}) => state.merge({ dropZoneV
 export const reducer = createReducer(INITIAL_STATE, {
     [Types.UPDATE_SQUARE]: updateSquare,
     [Types.UPDATE_MODAL_VISIBILITY]: updateModalVisibility,
-    [Types.UPDATE_DROP_ZONE_VALUES]: updateDropZoneValues
+    [Types.UPDATE_DROP_ZONE_VALUES]: updateDropZoneValues,
+    [Types.RESET_TABLE]: resetTable
 })

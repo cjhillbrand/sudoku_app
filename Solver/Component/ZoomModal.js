@@ -53,7 +53,6 @@ class DisconnectedZoomModal extends React.Component {
             height: this.state.height + layout.height,
             countHeight: this.state.countHeight + 1
         })
-        console.log('Height: ' + this.state.countHeight)
     }
 
     setLatState(event) {

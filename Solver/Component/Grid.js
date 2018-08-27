@@ -14,30 +14,25 @@ class DisconnectGrid extends React.Component {
         super(props)
         this.grabThisGridData = this.grabThisGridData.bind(this)
         this.state = {
-            location: 0,
-            gridVisible: [],
+            location: this.props.location,
+            gridVisible: this.props.gridVisible,
             dropZoneValues: null,
-            data: null,
+            data: this.props.data,
             gridData: null
         }
     }
 
-    componentDidMount() {
-        const {location, gridVisible } = this.props
-        this.setState({
-            location: location,
-            gridVisible: gridVisible
-        })
+    componentWillMount() {
+        this.grabThisGridData()
     }
 
     componentWillReceiveProps(newProps) {
         const data = newProps.data
-        if (data != this.state.data) {
-            this.setState({
-                data: data
-            })
-        }
-        this.grabThisGridData()
+        const location = newProps.location
+        this.setState({
+            data: data,
+            location: location
+        }, () => this.grabThisGridData())
     }
 
     grabLocation() {

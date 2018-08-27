@@ -47,6 +47,10 @@ class InputScreen extends React.Component {
         this.props.updateModalVisibility(0)
     }
 
+    handleReset() {
+        this.props.resetTable()
+    }
+
     render() {
         const { navigate } = this.props.navigation
         return (
@@ -70,6 +74,7 @@ class InputScreen extends React.Component {
                     scale={1}
                     />
                     <NavButton
+                    handlePress={this.handleReset.bind(this)}
                     theme='restart'
                     content='RESTART'
                     fontSize={20}
@@ -99,6 +104,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateModalVisibility: (pos) => {
             dispatch(Creators.updateModalVisibility(pos))
+        },
+        resetTable: () => {
+            dispatch(Creators.resetTable())
         }
     }
 }
