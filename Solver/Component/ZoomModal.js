@@ -4,7 +4,7 @@ import { Grid } from './Grid'
 import { zoomModalStyles } from '../styles/zoom-modal-styles'
 import { NavButton } from './NavButton';
 import { Icon } from 'react-native-elements'
-import Creators, { selectDropZoneValues } from '../Redux/AppRedux'
+import Creators, { selectDropZoneValues, selectData } from '../Redux/AppRedux'
 import { connect } from 'react-redux'
 import Draggable from './Draggable'
 
@@ -23,12 +23,44 @@ class DisconnectedZoomModal extends React.Component {
             offSetLat: 0,
             countHeight: 0,
             countLat: 0,
+            data: this.props.data,
+            gridSets: null
+        }
+    }
+
+    componentWillMount() {
+        this.calculateGridSets()
+    }
+
+    componentWillReceiveProps(newProps) {
+        const data = newProps.data
+        if (data != this.state.data) {
+            this.setState({
+                data: data
+            }, () => this.calculateGridSets())
         }
     }
 
     hideModal() {
         const { handlePress } = this.props
         handlePress()       
+    }
+
+    calculateGridSets() {
+        const data = this.state.data
+        var gridSets = new Array(9)
+        for (var i = 0; i < 9; i++) {
+            gridSets[i] = new Set()
+        }
+        for (var i = 0; i < 9; i++) {
+            for (var j = 0; j < 9; j++) {
+                //console.log(Math.floor(i/3) + Math.floor((j/3)) * 3)
+                gridSets[Math.floor(i/3) + Math.floor((j/3)) * 3].add(data[i][j])
+            }
+        }
+        this.setState({
+            gridSets: gridSets
+        })
     }
 
     renderBlank(setLat, up) {
@@ -86,6 +118,16 @@ class DisconnectedZoomModal extends React.Component {
 
     renderDraggable(value) {
         const { dropZoneValues } = this.props
+        if (this.state.gridSets != null) {
+            const currentGS = this.state.gridSets[this.props.position - 1]
+            if (currentGS.has(value)) {
+                return (
+                    <View style={zoomModalStyles.ghostContainer}>
+                        <Text style={zoomModalStyles.ghostNumber}>{value}</Text>
+                    </View>
+                )
+            }
+        }
         return (
             <Draggable
             value={value}
@@ -202,7 +244,8 @@ class DisconnectedZoomModal extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        dropZoneValues: selectDropZoneValues(state)
+        dropZoneValues: selectDropZoneValues(state),
+        data: selectData(state)
     }
 }
 
