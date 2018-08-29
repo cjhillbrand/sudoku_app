@@ -2,9 +2,11 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import { NavButton } from '../Component/NavButton'
 import { SolutionStyles } from '../styles/solution-screen-styles';
-import { Table } from '../Component/Table'
+import { SolutionTable } from '../Component/SolutionTable'
+import { selectSolution } from '../Redux/AppRedux';
+import { connect } from 'react-redux'
 
-class SolutionScreen extends React.Component {
+class DisconnectedSolutionScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerLeft: (<NavButton 
@@ -14,14 +16,31 @@ class SolutionScreen extends React.Component {
                 />
             )}
     }
+    constructor(props) {
+        super(props)
+        this.state = {
+            solution: this.props.solutionData,
+            showAll: false
+        }
+    }
+
+    setShowAll() {
+        console.log('here')
+        this.setState({
+            showAll: true
+        })
+    }
+
     render() {
         return(
             <View style={SolutionStyles.container}>
                 <Text style={SolutionStyles.content}> Press 'SHOW ALL' to show every number </Text>
                 <Text style={SolutionStyles.content}> or </Text>
-                <Text style={SolutionStyles.content}> Press on a box to show the answer for just that box </Text>
-                <Table/>
+                <Text style={SolutionStyles.content}> Double tap a box to show the answer for that box </Text>
+                <SolutionTable
+                showAll={this.state.showAll}/>
                 <NavButton 
+                handlePress={this.setShowAll.bind(this)}
                 content='SHOW ALL'
                 theme='solve'
                 color='black'
@@ -31,4 +50,10 @@ class SolutionScreen extends React.Component {
     )}
 }
 
-export default SolutionScreen
+const mapStateToProps = (state) => {
+    return {
+        solutionData: selectSolution(state)
+    }
+}
+
+export default SolutionScreen = connect(mapStateToProps)(DisconnectedSolutionScreen)

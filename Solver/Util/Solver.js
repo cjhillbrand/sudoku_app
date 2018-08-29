@@ -1,47 +1,58 @@
 import { store } from '../App'
+import Immutable from 'seamless-immutable'
+import Creators, { selectData, selectGridSets } from '../Redux/AppRedux'
 
 export class Solver {
     constructor() {
-        var { data, gridSets } = store.getState()
-        this.data = new Array(9)
-        this.gridSets = new Array(9)
-        for (var i = 0; i < 9; i++) {
-            this.data[i] = data[i]
-            this.gridSets[i] = gridSets[i]
-        }
-        console.log(this.gridSets)
+        let state = store.getState()
+        this.data = Immutable.asMutable(selectData(state), {deep:true})
+        this.gridSets = Immutable.asMutable(selectGridSets(state), {deep:true})
     }
     solve() {
         this.explore(0,0)
     }
 
     explore(col, row) {
-        console.log('Exploring col: ' + col + 'Exploring row: ' + row)
-        if (col == 9) {
-            console.log(this.data)
-        } else {
-            if (this.data[col][row] != undefined && row == 8) {
-                this.explore(col + 1, 0)
-            } else if (this.data[col][row] != undefined) {
-                explore(col, row + 1)
-            } else {
-                for (var i = 1; i <= 9; i++) {
-                    if(this.isSafe(col, row, i)){
-                        this.data[col][row] = i
-                        this.gridSets[this.findGrid(col,row)].concat(i)
-                        if (row == 8) {
-                            this.explore(col + 1, 0)
-                        } else {
-                            this.explore(col, row + 1)
-                        }
-                        this.data[col][row] = undefined
-                        this.remove(this.findGrid(col,row), i)
-                    }
+        var done = false
+        if (row == 9) {
+            var data = []
+            for (var i = 0; i < 9; i++) {
+                data[i] = []
+                for (var j = 0; j < 9; j++) {
+                    data[i][j] = this.data[i][j]
                 }
             }
+            store.dispatch(Creators.setSolution(data))
+            return true
+        }
+        //Pre-placed number
+        if (this.data[col][row] != 0) {
+            if (col == 8){
+                done = this.explore(0, row + 1)
+            } else {
+                done = this.explore(col + 1, row)
+            }
+            if (done) return true
+        } else {
+            //Unsolved Box
+            for (var i = 1; i <= 9; i++) {
+                if (done) return true
+                if (this.isSafe(col, row, i)) {
+                    this.data[col][row] = i //Place value
+                    this.gridSets[this.findGrid(col,row)].push(i) //add it to gridSet
+                    if (col == 8) {
+                        done = this.explore(0,row+1)
+                    } else {
+                        done = this.explore(col+1,row)
+                    }
+                    this.data[col][row] = 0
+                    this.gridSets[this.findGrid(col,row)].pop()
+                    if (done) return true
+                }
+            }
+            return false
         }
     }
-
     isSafe(col, row, value) {
         if(!this.containsRow(row, value) && !this.containsCol(this.data[col], value) &&
         !this.containsGrid(col, row, value)) {

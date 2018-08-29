@@ -54,9 +54,7 @@ class InputScreen extends React.Component {
 
     handleSolve() {
         const { navigate } = this.props.navigation
-        console.log('does it work here')
         let s = new Solver()
-        console.log('about to fire the base cannon')
         s.solve()
         navigate('Solution')
     }

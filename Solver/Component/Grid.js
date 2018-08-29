@@ -133,7 +133,7 @@ class DisconnectGrid extends React.Component {
         const varStyle = {borderRightWidth:rWidth, borderLeftWidth:lWidth, borderColor:'black', 
                             borderTopWidth:tWidth, borderBottomWidth:bWidth, width:size, height:size}
         if (gd == null) return <View style={varStyle}/>
-        if (gd[pos.col][pos.row] != null) {
+        if (gd[pos.col][pos.row] != 0) {
             return (
                 <View style={[varStyle]}>
                 <Text style={[zoomModalStyles.numbers, {fontSize:size*2/3, color:'black', fontWeight:'bold'}]}>{gd[pos.col][pos.row]}</Text> 

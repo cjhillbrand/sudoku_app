@@ -8,6 +8,7 @@ const { Types, Creators } = createActions({
     updateModalVisibility: ['pos'],
     updateDropZoneValues: ['values'],
     updateGridSets: ['newGridSet'],
+    setSolution: ['solution'],
     resetTable: null
 })
 
@@ -19,20 +20,22 @@ export const selectGridVisible = (state) => state.gridVisible
 export const selectData = (state) => state.data
 export const selectDropZoneValues = (state) => state.dropZoneValues
 export const selectGridSets = (state) => state.gridSets
+export const selectSolution = (state) => state.solution
 
 /*---------------InitialState---------------*/
 var init = new Array(9)
 var initGrid = new Array(9)
 
 for (var i = 0; i < 9; i++) {
-    init[i] = new Array(9)
+    init[i] = [0,0,0,0,0,0,0,0,0]
     initGrid[i] = new Array()
 }
 export const INITIAL_STATE = Immutable({
     gridVisible: 0,
     data: init,
     dropZoneValues: null,
-    gridSets: initGrid
+    gridSets: initGrid,
+    solution: init
 })
 
 /*-------------------Reducers-------------------*/
@@ -63,11 +66,13 @@ export function updateGridSets(state, {newGridSet}) {
     }
     return state.merge({ gridSets: result})
 }
+export const setSolution = (state, {solution}) => state.merge({ solution: solution })
 /*--------------------Hook em up--------------------*/
 export const reducer = createReducer(INITIAL_STATE, {
     [Types.UPDATE_SQUARE]: updateSquare,
     [Types.UPDATE_MODAL_VISIBILITY]: updateModalVisibility,
     [Types.UPDATE_DROP_ZONE_VALUES]: updateDropZoneValues,
     [Types.UPDATE_GRID_SETS]: updateGridSets,
+    [Types.SET_SOLUTION]: setSolution,
     [Types.RESET_TABLE]: resetTable
 })
