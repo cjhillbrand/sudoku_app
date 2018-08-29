@@ -43,6 +43,7 @@ class DisconnectedZoomModal extends React.Component {
 
     hideModal() {
         const { handlePress } = this.props
+        this.props.updateGridSets(this.state.gridSets)
         handlePress()       
     }
 
@@ -54,7 +55,6 @@ class DisconnectedZoomModal extends React.Component {
         }
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
-                //console.log(Math.floor(i/3) + Math.floor((j/3)) * 3)
                 gridSets[Math.floor(i/3) + Math.floor((j/3)) * 3].add(data[i][j])
             }
         }
@@ -253,6 +253,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         updateModalVisibility: (pos) => {
             dispatch(Creators.updateModalVisibility(pos))
+        },
+        updateGridSets: (newGridSet) => {
+            dispatch(Creators.updateGridSets(newGridSet))
         }
     }
 }

@@ -6,6 +6,7 @@ import { Table } from '../Component/Table';
 import Creators, { selectGridVisible, selectData } from '../Redux/AppRedux';
 import { connect } from 'react-redux'
 import ZoomModal from '../Component/ZoomModal';
+import { Solver } from '../Util/Solver';
 
 class InputScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -51,8 +52,16 @@ class InputScreen extends React.Component {
         this.props.resetTable()
     }
 
-    render() {
+    handleSolve() {
         const { navigate } = this.props.navigation
+        console.log('does it work here')
+        let s = new Solver()
+        console.log('about to fire the base cannon')
+        s.solve()
+        navigate('Solution')
+    }
+
+    render() {
         return (
             <View style={inputStyles.container}>
                 <Text style={inputStyles.content}> 
@@ -65,7 +74,7 @@ class InputScreen extends React.Component {
                     touchable={true}/>
                 <View style={{flexDirection:'row'}}>
                     <NavButton
-                    handlePress={() => navigate('Solution')}
+                    handlePress={this.handleSolve.bind(this)}
                     theme='solve'
                     content='SOLVE'
                     fontSize={20}
