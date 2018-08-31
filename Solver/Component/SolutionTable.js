@@ -114,7 +114,6 @@ class DisconnectedSolutionTable extends React.Component {
     }
    
     onPress(col, row) {
-        console.log(col , row)
         var delta = new Date().getTime() - this.state.lastPress;
         if(delta < 200) {
             var temp = this.state.visible

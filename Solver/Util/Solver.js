@@ -90,13 +90,4 @@ export class Solver {
     findGrid(col, row) {
         return Math.floor(col/3) + Math.floor(row/3) * 3
     }
-
-    remove(grid, value) {
-        for (var i = 0; i < this.gridSets[grid].length; i++) {
-            if (this.gridSets[grid][i] == value) {
-                this.gridSets[grid][i] == 0
-                break
-            }
-        }
-    }
 }

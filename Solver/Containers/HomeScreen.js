@@ -2,8 +2,6 @@ import React from 'react'
 import {View, Text, Image} from 'react-native'
 import { titleStyles } from '../styles/title-screen-styles';
 import { NavButton } from '../Component/NavButton';
-import { reducer } from '../Redux/AppRedux';
-import { createStore } from 'redux'
 
 class HomeScreen extends React.Component {
     render () {

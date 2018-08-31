@@ -25,7 +25,6 @@ class DisconnectedSolutionScreen extends React.Component {
     }
 
     setShowAll() {
-        console.log('here')
         this.setState({
             showAll: true
         })

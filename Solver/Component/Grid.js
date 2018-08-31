@@ -8,6 +8,7 @@ class DisconnectGrid extends React.Component {
     static defaultProps = {
         size: 35,
         touchable: false,
+        clearable: false
     }
     
     constructor(props) {
@@ -130,19 +131,44 @@ class DisconnectGrid extends React.Component {
 
     renderBox(size, pos, rWidth, lWidth, tWidth, bWidth) {
         const gd = this.state.gridData
+        const clearable = this.props.clearable
         const varStyle = {borderRightWidth:rWidth, borderLeftWidth:lWidth, borderColor:'black', 
                             borderTopWidth:tWidth, borderBottomWidth:bWidth, width:size, height:size}
         if (gd == null) return <View style={varStyle}/>
         if (gd[pos.col][pos.row] != 0) {
+            if (!clearable) {
+                return (
+                    <View style={[varStyle]}>
+                    <Text style={[zoomModalStyles.numbers, {fontSize:size*2/3, color:'black', fontWeight:'bold'}]}>
+                        {gd[pos.col][pos.row]}
+                    </Text> 
+                    </View>
+                )
+            }
             return (
-                <View style={[varStyle]}>
-                <Text style={[zoomModalStyles.numbers, {fontSize:size*2/3, color:'black', fontWeight:'bold'}]}>{gd[pos.col][pos.row]}</Text> 
-                </View>
+                <TouchableOpacity style={varStyle} onPress={() => this.handleDoubleClick(pos.col, pos.row)}>
+                    <Text style={[zoomModalStyles.numbers, {fontSize:size*2/3, color:'black', fontWeight:'bold'}]}>
+                        {gd[pos.col][pos.row]}
+                    </Text>
+                </TouchableOpacity>
             )
         }
         return (
             <View style={varStyle}/>
         )
+    }
+
+    handleDoubleClick(col, row) {
+        var delta = new Date().getTime() - this.state.lastPress
+        if (delta < 200) {
+            const loc = this.state.location
+            console.log('row ' + Math.floor(loc/3) * 3 + row)
+            console.log('col ' + (col + ((loc - 1) % 3) * 3) + ' '+col + ' ' + loc)
+            this.props.updateSquare(col + ((loc-1) % 3) * 3, Math.floor((loc-1)/3) * 3 + row, 0)
+        }
+        this.setState({
+            lastPress: new Date().getTime()
+        })
     }
 
     renderTouch(touchable, size) {
@@ -172,6 +198,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateDropZoneValues: (values) => {
             dispatch(Creators.updateDropZoneValues(values))
+        },
+        updateSquare: (col, row, value) => {
+            dispatch(Creators.updateSquare(col, row, value))
         },
     }
 }

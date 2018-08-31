@@ -226,7 +226,8 @@ class DisconnectedZoomModal extends React.Component {
             {this.renderLeftArrow(position)}
             <Grid
             location={position}
-            size={75} />
+            size={75}
+            clearable={true} />
             {this.renderRightArrow(position)}
             </View>
             {this.renderDownArrow(position)}
