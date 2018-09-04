@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import Device from '../config'
 
 const buttonStyles = StyleSheet.create({
     aboutButton: {
@@ -8,7 +9,7 @@ const buttonStyles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 3,
         alignItems: 'center',
-        marginTop: 20
+        marginTop: Device.height / 41
     },
     getStartedButton: {
         borderRadius: 16,
@@ -17,7 +18,7 @@ const buttonStyles = StyleSheet.create({
         backgroundColor: 'black',
         borderWidth: 3,
         alignItems: 'center',
-        marginTop: 20,
+        marginTop: Device.height / 41,
         marginBottom: 5
     },
     backButton: {
@@ -33,16 +34,16 @@ const buttonStyles = StyleSheet.create({
         width:90,
         height:90,
         backgroundColor:'black',
-        marginTop: 50,
-        marginRight:15,
+        marginTop: Device.height / 16.25,
+        marginRight: Device.width / 25,
     },
     restartButton: {
         borderRadius: 45,
         width:90,
         height:90,
         borderWidth:3,
-        marginTop:50,
-        marginLeft:15,
+        marginTop: Device.height / 16.25,
+        marginLeft: Device.width / 25,
         alignItems:'center'
     },
     returnButton: {
@@ -50,7 +51,7 @@ const buttonStyles = StyleSheet.create({
         width: 100,
         height: 40,
         backgroundColor: 'black',
-        marginTop: 15
+        marginTop: Device.height / 54
     },
     blackButton:{
         backgroundColor:'black'

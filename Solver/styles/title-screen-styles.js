@@ -1,5 +1,7 @@
-import React from "react"
 import {StyleSheet} from "react-native"
+import Device from '../config'
+
+const imageWidth = Device.width / 1.5 
 
 const titleStyles = StyleSheet.create({
     container: {
@@ -10,13 +12,13 @@ const titleStyles = StyleSheet.create({
         fontSize: 45,
         fontWeight: 'bold',
         fontFamily: 'Bangla Sangam MN',
-        marginTop: 80
+        marginTop: Device.height / 10
     },
     image: {
-        marginTop:30,
-        marginBottom:20,
-        width: 250,
-        height: 250,
+        marginTop: Device.height / 30,
+        marginBottom: Device.height / 40,
+        width: imageWidth,
+        height: imageWidth
     }
 })
 

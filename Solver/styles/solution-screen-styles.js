@@ -4,7 +4,7 @@ const SolutionStyles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        marginTop: 15
+        marginTop: Device.height / 54
     },
     content: {
         fontFamily: 'Bangla Sangam MN',

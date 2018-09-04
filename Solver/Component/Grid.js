@@ -162,8 +162,6 @@ class DisconnectGrid extends React.Component {
         var delta = new Date().getTime() - this.state.lastPress
         if (delta < 200) {
             const loc = this.state.location
-            console.log('row ' + Math.floor(loc/3) * 3 + row)
-            console.log('col ' + (col + ((loc - 1) % 3) * 3) + ' '+col + ' ' + loc)
             this.props.updateSquare(col + ((loc-1) % 3) * 3, Math.floor((loc-1)/3) * 3 + row, 0)
         }
         this.setState({

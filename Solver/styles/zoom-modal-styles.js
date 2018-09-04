@@ -1,9 +1,11 @@
 import {StyleSheet} from "react-native"
+import Device from '../config'
 
+const sqSize = Device.width / 7
 const zoomModalStyles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 50,
+        marginTop: Device.height / 16.25,
         alignItems:'center'
     },
     content: {
@@ -11,11 +13,11 @@ const zoomModalStyles = StyleSheet.create({
         fontSize: 26
     },
     numbersContainer: {
-        width: 55, 
-        height: 55, 
+        width: sqSize, 
+        height: sqSize, 
         backgroundColor: 'black', 
-        marginVertical: 5,
-        marginHorizontal: 5,
+        marginVertical: Device.width / 75,
+        marginHorizontal: Device.width / 75,
         borderRadius: 12
     },
     numbers: {
@@ -25,12 +27,12 @@ const zoomModalStyles = StyleSheet.create({
         fontSize: 45
     },
     ghostContainer: {
-        width: 55,
-        height: 55,
+        width: sqSize,
+        height: sqSize,
         borderColor: 'grey',
         borderWidth: 2,
-        marginVertical: 5,
-        marginHorizontal: 5,
+        marginVertical: Device.width / 75,
+        marginHorizontal: Device.width / 75,
         borderRadius: 12
     },
     ghostNumber: {
